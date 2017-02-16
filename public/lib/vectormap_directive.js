@@ -81,18 +81,23 @@ module.directive('vectormap', function (Private, getAppState, courier) {
             if (!scope.$parent.filterField) {
               return;
             }
-            var count = _.isUndefined(scope.data[code]) ? 0 : scope.data[code];
-            if (count !== 0) {
+//            var count = _.isUndefined(scope.data[code]) ? 0 : scope.data[code];
+//            if (count !== 0) {
               courier.indexPatterns.getIds().then(function (indices) {
                 const field = scope.$parent.filterField;
                 const filter = {"match" : {}};
-                filter.match[field] = code;
+                if (scope.options.mapType === 'us_aea') {
+                  filter.match[field] = code.replace('US-', '');
+                }
+                else {
+                  filter.match[field] = code;
+                }
 
                 for(var i = 0; i < indices.length; i++) {
                   pushFilter(filter, false, indices[i]);
                 }
               });
-            }
+//            }
           }
         });
       });
