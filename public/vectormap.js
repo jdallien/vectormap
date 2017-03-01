@@ -20,7 +20,8 @@ function VectormapProvider(Private) {
         minColor: '#A0E2E2',
         maxColor: '#265656',
         zoomOnScroll: false,
-        tipNumberFormat: 'number'
+        tipNumberFormat: 'number',
+        normalizeFunction: 'polynomial'
       },
       editor: require('plugins/vectormap/vectormap_vis_params.html')
     },
