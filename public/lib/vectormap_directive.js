@@ -89,6 +89,10 @@ module.directive('vectormap', function (Private, getAppState, courier) {
                 if (scope.options.mapType === 'us_aea') {
                   filter.match[field] = code.replace('US-', '');
                 }
+                else if (scope.options.mapType.match(/^us-/)) { // state map with counties
+                  var map = element.vectorMap('get', 'mapObject');
+                  filter.match[field] = map.getRegionName(code);
+                }
                 else {
                   filter.match[field] = code;
                 }
