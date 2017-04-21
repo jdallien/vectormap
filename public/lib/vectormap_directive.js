@@ -7,6 +7,7 @@ require('plugins/vectormap/lib/jvectormap/jquery-jvectormap.min');
 require('plugins/vectormap/lib/jvectormap/jquery-jvectormap.css');
 
 var module = require('ui/modules').get('vectormap');
+var map_grouping = require('./map_grouping');
 
 module.directive('vectormap', function (Private, getAppState, courier) {
   function link (scope, element) {
@@ -81,27 +82,31 @@ module.directive('vectormap', function (Private, getAppState, courier) {
             if (!scope.$parent.filterField) {
               return;
             }
-//            var count = _.isUndefined(scope.data[code]) ? 0 : scope.data[code];
-//            if (count !== 0) {
-              courier.indexPatterns.getIds().then(function (indices) {
-                const field = scope.$parent.filterField;
-                const filter = {"match" : {}};
-                if (scope.options.mapType === 'us_aea') {
-                  filter.match[field] = code.replace('US-', '');
-                }
-                else if (scope.options.mapType.match(/^us-/)) { // state map with counties
-                  var map = element.vectorMap('get', 'mapObject');
-                  filter.match[field] = map.getRegionName(code);
-                }
-                else {
-                  filter.match[field] = code;
-                }
+            courier.indexPatterns.getIds().then(function (indices) {
+              const field = scope.$parent.filterField;
+              const filter = {"match" : {}};
 
-                for(var i = 0; i < indices.length; i++) {
-                  pushFilter(filter, false, indices[i]);
-                }
-              });
-//            }
+              var grouping = map_grouping.get_grouping(scope.options.mapType);
+
+              if (grouping) {
+                var group_name = map_grouping.get_group_by_region(grouping, code);
+                filter.match[field] = group_name;
+              }
+              else if (scope.options.mapType === 'us_aea') {
+                filter.match[field] = code.replace('US-', '');
+              }
+              else if (scope.options.mapType.match(/^us-/)) { // state map with counties
+                var map = element.vectorMap('get', 'mapObject');
+                filter.match[field] = map.getRegionName(code);
+              }
+              else {
+                filter.match[field] = code;
+              }
+
+              for(var i = 0; i < indices.length; i++) {
+                pushFilter(filter, false, indices[i]);
+              }
+            });
           }
         });
       });
