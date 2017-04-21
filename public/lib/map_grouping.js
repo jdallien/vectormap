@@ -19,17 +19,17 @@ define({
   },
 
   md_judicial_districts: {
-    "Baltimore City":       ["BALTIMORE CITY"],
-    "Lower Shore":          ["DORCHESTER", "SOMERSET", "WICOMICO", "WORCESTER"],
-    "Upper Shore":          ["CECIL", "KENT", "QUEEN ANNE'S", "TALBOT", "CAROLINE"],
-    "Southern Maryland":    ["CALVERT", "CHARLES", "ST. MARY'S"],
-    "Prince George's":      ["PRINCE GEORGE'S"],
-    "Montgomery":           ["MONTGOMERY"],
-    "Anne Arundel":         ["ANNE ARUNDEL"],
-    "Baltimore County":     ["BALTIMORE"],
-    "Harford":              ["HARFORD"],
-    "Central Maryland":     ["HOWARD", "CARROLL"],
-    "Mid-Western Maryland": ["FREDERICK", "WASHINGTON"],
-    "Western Maryland":     ["ALLEGANY", "GARRETT"]
+    "Baltimore City":         ["BALTIMORE CITY"],
+    "Lower Shore":            ["DORCHESTER", "SOMERSET", "WICOMICO", "WORCESTER"],
+    "Upper Shore":            ["CECIL", "KENT", "QUEEN ANNE'S", "TALBOT", "CAROLINE"],
+    "Southern Maryland":      ["CALVERT", "CHARLES", "ST. MARY'S"],
+    "Prince George's County": ["PRINCE GEORGE'S"],
+    "Montgomery County":      ["MONTGOMERY"],
+    "Anne Arundel County":    ["ANNE ARUNDEL"],
+    "Baltimore County":       ["BALTIMORE"],
+    "Harford County":         ["HARFORD"],
+    "Central Maryland":       ["HOWARD", "CARROLL"],
+    "Mid-Western Maryland":   ["FREDERICK", "WASHINGTON"],
+    "Western Maryland":       ["ALLEGANY", "GARRETT"]
   }
 });
