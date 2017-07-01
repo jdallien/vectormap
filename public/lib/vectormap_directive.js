@@ -48,6 +48,29 @@ module.directive('vectormap', function (Private, getAppState, courier) {
       render();
     });
 
+    function build_map_options() {
+      var map_options = {
+        map: scope.options.mapType,
+        regionStyle: { initial: { fill: '#8c8c8c' }},
+        zoomOnScroll: scope.options.zoomOnScroll,
+        backgroundColor: null,
+        series: {
+          regions: [{
+            values: scope.data,
+            scale: [scope.options.minColor, scope.options.maxColor],
+            normalizeFunction: scope.options.normalizeFunction,
+          }]
+        }
+      }
+
+      if (scope.options.legendStyle != 'none') {
+        map_options['series']['regions'][0]['legend'] =
+          { vertical: (scope.options.legendStyle == 'vertical') };
+      }
+
+      return map_options;
+    }
+
     function render() {
       element.css({
         height: element.parent().height(),
@@ -60,25 +83,14 @@ module.directive('vectormap', function (Private, getAppState, courier) {
       $('.jvectormap-zoomin, .jvectormap-zoomout, .jvectormap-label').remove();
 
       require(['plugins/vectormap/lib/jvectormap/maps/map.' + scope.options.mapType], function () {
-        element.vectorMap({
-          map: scope.options.mapType,
-          regionStyle: { initial: { fill: '#8c8c8c' }},
-          zoomOnScroll: scope.options.zoomOnScroll,
-          backgroundColor: null,
-          series: {
-            regions: [{
-              values: scope.data,
-              scale: [scope.options.minColor, scope.options.maxColor],
-              normalizeFunction: scope.options.normalizeFunction
-            }]
-          },
-          onRegionTipShow: function(event, el, code) {
+        var map_options = build_map_options();
+          map_options.onRegionTipShow = function(event, el, code) {
             if (!scope.data) { return; }
 
             var count = _.isUndefined(scope.data[code]) ? 0 : scope.data[code];
             el.html(el.html() + ": " + numeral(count).format(displayFormat(scope.options.tipNumberFormat)));
           },
-          onRegionClick: function(event, code) {
+          map_options.onRegionClick = function(event, code) {
             if (!scope.$parent.filterField) {
               return;
             }
@@ -108,7 +120,9 @@ module.directive('vectormap', function (Private, getAppState, courier) {
               }
             });
           }
-        });
+        element.vectorMap(
+          map_options
+        );
       });
     }
   }

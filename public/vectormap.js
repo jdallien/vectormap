@@ -21,7 +21,8 @@ function VectormapProvider(Private) {
         maxColor: '#265656',
         zoomOnScroll: false,
         tipNumberFormat: 'number',
-        normalizeFunction: 'polynomial'
+        normalizeFunction: 'polynomial',
+        legendStyle: 'none'
       },
       editor: require('plugins/vectormap/vectormap_vis_params.html')
     },
