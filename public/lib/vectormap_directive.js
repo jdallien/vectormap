@@ -71,6 +71,13 @@ module.directive('vectormap', function (Private, getAppState, courier) {
       return map_options;
     }
 
+    function center_legend(map_container) {
+      var center = map_container.width()/2;
+      var legend = map_container.children("div.jvectormap-legend-cnt.jvectormap-legend-cnt-h");
+      var offset = legend.width()/2;
+      legend.css("left", center - offset);
+    };
+
     function render() {
       element.css({
         height: element.parent().height(),
@@ -123,6 +130,9 @@ module.directive('vectormap', function (Private, getAppState, courier) {
         element.vectorMap(
           map_options
         );
+        if (scope.options.legendStyle == "horizontal") {
+          center_legend(element.children('.jvectormap-container'));
+        }
       });
     }
   }
